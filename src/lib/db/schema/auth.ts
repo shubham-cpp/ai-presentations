@@ -1,14 +1,32 @@
+import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
+
+import { project } from "./project";
 
 export const user = sqliteTable("user", {
-  id: text().primaryKey(),
+  id: text().primaryKey().$defaultFn(nanoid),
   name: text().notNull(),
   email: text().notNull().unique(),
-  emailVerified: integer({ mode: "boolean" }).$defaultFn(() => false).notNull(),
+  subscription: integer({ mode: "boolean" })
+    .$defaultFn(() => false)
+    .notNull(),
+  emailVerified: integer({ mode: "boolean" })
+    .$defaultFn(() => false)
+    .notNull(),
   image: text(),
-  createdAt: integer().$defaultFn(() => /* @__PURE__ */ Date.now()).notNull(),
-  updatedAt: integer().$defaultFn(() => /* @__PURE__ */ Date.now()).notNull(),
+  createdAt: integer()
+    .$defaultFn(() => /* @__PURE__ */ Date.now())
+    .notNull(),
+  updatedAt: integer()
+    .$defaultFn(() => /* @__PURE__ */ Date.now())
+    .notNull(),
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+  projects: many(project),
+  purchasedProjects: many(project),
+}));
 
 export const session = sqliteTable("session", {
   id: text().primaryKey(),
@@ -18,14 +36,18 @@ export const session = sqliteTable("session", {
   updatedAt: integer().notNull(),
   ipAddress: text(),
   userAgent: text(),
-  userId: text().notNull().references(() => user.id, { onDelete: "cascade" }),
+  userId: text()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const account = sqliteTable("account", {
   id: text().primaryKey(),
   accountId: text().notNull(),
   providerId: text().notNull(),
-  userId: text().notNull().references(() => user.id, { onDelete: "cascade" }),
+  userId: text()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   accessToken: text(),
   refreshToken: text(),
   idToken: text(),

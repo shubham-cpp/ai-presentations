@@ -14,6 +14,8 @@ const EnvSchema = z.object({
 
   AUTH_GOOGLE_ID: z.string(),
   AUTH_GOOGLE_SECRET: z.string(),
+
+  GEMINI_API_KEY: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;

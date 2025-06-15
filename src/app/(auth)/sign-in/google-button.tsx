@@ -34,7 +34,7 @@ function GoogleButton() {
     <Button
       onClick={handleGoogleSignUp}
       className="w-full h-12 bg-white hover:bg-gray-50 text-gray-900 font-medium transition-all duration-200 hover:scale-105 shadow-lg cursor-pointer"
-      variant="outline"
+      // variant="outline"
     >
       <GoogleSvg />
       Continue with Google

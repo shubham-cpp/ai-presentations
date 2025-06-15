@@ -32,6 +32,7 @@ CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
+	`subscription` integer NOT NULL,
 	`email_verified` integer NOT NULL,
 	`image` text,
 	`created_at` integer NOT NULL,
