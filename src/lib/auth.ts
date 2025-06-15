@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
-
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+
 import { db } from "./db";
 import env from "./env";
 
@@ -18,4 +18,4 @@ export const auth = betterAuth({
       clientSecret: env.AUTH_GOOGLE_SECRET,
     },
   },
-})
+});

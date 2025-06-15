@@ -1,11 +1,11 @@
-import ThemeToggle from "./theme-toggle"
+import ThemeToggle from "./theme-toggle";
 
-const Navbar = () => {
+function Navbar() {
   return (
     <nav>
       <ThemeToggle />
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/libsql";
+
 import env from "../env";
-import * as schema from './schema'
+import * as schema from "./schema";
 
 export const db = drizzle({
   connection: {
@@ -10,4 +11,3 @@ export const db = drizzle({
   casing: "snake_case",
   schema,
 });
-

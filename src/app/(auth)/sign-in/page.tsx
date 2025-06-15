@@ -1,6 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FunctionComponent } from 'react'
-import GoogleButton from './google-button'
+import type { FunctionComponent } from "react";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+import GoogleButton from "./google-button";
 
 const SignUpPage: FunctionComponent = () => {
   return (
@@ -50,20 +52,24 @@ const SignUpPage: FunctionComponent = () => {
                 <span className="text-sm font-medium">Privacy Protected</span>
               </div>
               <p className="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto">
-                We {"don't"} store your private data. We only use Google for secure authentication
+                We
+                {" "}
+                don't
+                {" "}
+                store your private data. We only use Google for secure authentication
                 and to personalize your AI presentation experience.
               </p>
-              <p className='text-xs text-gray-400 leading-relaxed max-w-sm mx-auto'>Your privacy is our priority.</p>
+              <p className="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto">Your privacy is our priority.</p>
             </div>
 
             {/* Terms */}
             <p className="text-xs text-center text-gray-500">
               By continuing, you agree to our
-              <button className="mx-0.5 text-purple-400 hover:text-purple-300 underline transition-colors">
+              <button type="button" className="mx-0.5 text-purple-400 hover:text-purple-300 underline transition-colors">
                 Terms of Service
               </button>
               and
-              <button className="mx-0.5 text-purple-400 hover:text-purple-300 underline transition-colors">
+              <button type="button" className="mx-0.5 text-purple-400 hover:text-purple-300 underline transition-colors">
                 Privacy Policy
               </button>
             </p>
@@ -71,7 +77,7 @@ const SignUpPage: FunctionComponent = () => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

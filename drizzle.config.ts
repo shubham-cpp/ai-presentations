@@ -12,4 +12,3 @@ export default defineConfig({
     authToken: env.NODE_ENV === "development" ? undefined : env.TURSO_AUTH_TOKEN,
   },
 });
-

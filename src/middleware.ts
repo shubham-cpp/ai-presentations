@@ -1,13 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const publicRoutes = ['/sign-in', '/privacy', '/']
+import { NextResponse } from "next/server";
+
+const publicRoutes = ["/sign-in", "/privacy", "/"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isPublicRoute = publicRoutes.includes(pathname)
+  const isPublicRoute = publicRoutes.includes(pathname);
 
   if (isPublicRoute) {
-    return NextResponse.next()
+    return NextResponse.next();
   }
 
   const res = await fetch(`${request.nextUrl.origin}/api/auth/get-session`, {
@@ -16,7 +18,7 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const session = await res.json()
+  const session = await res.json();
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
@@ -27,5 +29,5 @@ export async function middleware(request: NextRequest) {
 export const config = {
   // runtime: "nodejs",
   // matcher: ["/dashboard"], // Apply middleware to specific routes
-  matcher: ["/((?!_next/static|_next/image|api|robots.txt|sitemap.xml|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",], // Apply middleware to specific routes
+  matcher: ["/((?!_next/static|_next/image|api|robots.txt|sitemap.xml|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"], // Apply middleware to specific routes
 };

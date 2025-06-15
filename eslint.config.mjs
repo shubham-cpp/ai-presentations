@@ -1,16 +1,38 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import antfu from "@antfu/eslint-config";
+import nextPlugin from "@next/eslint-plugin-next";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-export default eslintConfig;
+export default antfu(
+  {
+    type: "app",
+    formatters: true,
+    typescript: true,
+    react: true,
+    stylistic: {
+      indent: 2,
+      semi: true,
+      quotes: "double",
+    },
+    ignores: [".pnpm-store/**", "**/migrations/*"],
+  },
+  {
+    rules: {
+      "ts/consistent-type-definitions": ["error", "type"],
+      "perfectionist/sort-imports": ["error", { tsconfigRootDir: "." }],
+      "unicorn/filename-case": [
+        "error",
+        { case: "kebabCase", ignore: ["README.md"] },
+      ],
+      "node/no-process-env": ["error"],
+      "ts/no-redeclare": "off",
+    },
+  },
+  {
+    plugins: {
+      "@next/next": nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
+);
