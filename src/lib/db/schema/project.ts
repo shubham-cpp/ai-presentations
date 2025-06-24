@@ -3,12 +3,13 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { user } from "./auth";
+import { Slide } from "@/types";
 
 export const project = sqliteTable("project", {
   id: text().primaryKey().$defaultFn(nanoid),
   title: text().notNull(),
 
-  slides: text({ mode: "json" }).notNull(),
+  slides: text({ mode: "json" }).$type<Slide[]>().notNull(),
   outlines: text({ mode: "json" })
     .$type<string[]>()
     .default(sql`(json_array())`)

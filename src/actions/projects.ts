@@ -1,19 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import type { Project } from "@/lib/db/schema";
 import type { CustomResponse } from "@/types";
 
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-
-export async function getSession() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  return session;
-}
+import { getSession } from "@/lib/db/controllers/users";
 
 export async function getProjects(): Promise<CustomResponse<Project[]>> {
   try {
@@ -40,5 +31,45 @@ export async function getProjects(): Promise<CustomResponse<Project[]>> {
   catch (error) {
     console.error("ERROR: while `getProjects`\n", error);
     return { status: 500, error: "Something went wrong" };
+  }
+}
+
+export async function getRecentProjects(): Promise<CustomResponse<Project[]>> {
+  try {
+    const session = await getSession();
+
+    if (!session || !session?.user) {
+      return { status: 401, error: "User is not authenticated" };
+    }
+
+    const projects = await db.query.project.findMany({
+      where(project, { and, eq }) {
+        return and(eq(project.isDeleted, false), eq(project.userId, session.user.id));
+      },
+      orderBy(project, { desc }) {
+        return desc(project.updatedAt);
+      },
+      limit: 5,
+    });
+
+    if (projects.length === 0) {
+      return {
+        status: 204,
+        error: "No recent projects available",
+      };
+    }
+
+    return {
+      status: 200,
+      data: projects,
+    };
+  }
+  catch (error) {
+    console.error("ERROR: while fetching recent projects\n", error);
+
+    return {
+      status: 500,
+      error: "Internal Server error! Please try again later.",
+    };
   }
 }
